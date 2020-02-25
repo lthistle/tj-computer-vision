@@ -2,9 +2,9 @@
 #include <iostream>
 #include <stdio.h>
 
-int min_circle_dist = 200;
-int canny_thresh = 200;
-int accumulator_thresh = 200;
+int min_circle_dist = 65;
+int canny_thresh = 65;
+int accumulator_thresh = 50;
 int min_radius = 70;
 int max_radius = 200;
 
@@ -19,16 +19,14 @@ void SmoothImage(cv::Mat &src, cv::Mat &dst)
 {
     //do a closing morphology with cross kernel of size 2*9 + 1
     int m_size = 5;
-    cv::GaussianBlur(src, dst, cv::Size(7, 7), 2, 2);
     cv::Mat element = cv::getStructuringElement(2, cv::Size(5, 5));
-    cv::morphologyEx(src, dst, 0, element);
+    cv::morphologyEx(src, dst, 2, element);
     cv::morphologyEx(dst, dst, 2, element);
     cv::morphologyEx(dst, dst, 2, element);
     cv::morphologyEx(dst, dst, 2, element);
     cv::morphologyEx(dst, dst, 2, element);
     cv::morphologyEx(dst, dst, 2, element);
-    //cv::morphologyEx(dst, dst, 0, element);
-    //
+    //cv::GaussianBlur(src, dst, cv::Size(7, 7), 2, 2);
 }
 void DisplayImage(const char* window_name, cv::Mat &src, cv::Size dimensions)
 {
@@ -62,14 +60,19 @@ void Hough_Operations(int, void*)
     }
     cv::imshow(windowName, display);
 }
+void Canny_Operations(int, void*)
+{
+    cv::Canny(image, display, canny_thresh / 2.0, canny_thresh);
+    cv::imshow(windowName, display);
+}
 void TestCircles()
 {
     cv::namedWindow(windowName, cv::WINDOW_NORMAL);
     cv::resizeWindow(windowName, 1600, 1200);
-    cv::createTrackbar("Minimum Circle Distance", windowName, &min_circle_dist, 100, Hough_Operations);
-    cv::createTrackbar("Canny Threshhold", windowName, &canny_thresh, 200, Hough_Operations);
-    cv::createTrackbar("Accumulator Threshhold", windowName, &accumulator_thresh, 200, Hough_Operations);
-    Hough_Operations(0, 0);
+    //cv::createTrackbar("Minimum Circle Distance", windowName, &min_circle_dist, 100, Hough_Operations);
+    cv::createTrackbar("Canny Threshhold", windowName, &canny_thresh, 200, Canny_Operations);
+    //cv::createTrackbar("Accumulator Threshhold", windowName, &accumulator_thresh, 200, Hough_Operations);
+    Canny_Operations(0, 0);
     cv::waitKey(0);
 }
 
