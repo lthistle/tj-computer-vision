@@ -1,0 +1,7 @@
+-----Results-----
+Pennies: 50
+Nickels: 23
+Dimes: 55
+Quarters: 3
+Half Dollars: 4
+Amount: $9.90

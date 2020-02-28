@@ -2,10 +2,10 @@
 #include <iostream>
 #include <stdio.h>
 
-int min_circle_dist = 200;
-int canny_thresh = 200;
-int accumulator_thresh = 200;
-int min_radius = 70;
+int min_circle_dist = 100;
+int canny_thresh = 190;
+int accumulator_thresh = 24;
+int min_radius = 60;
 int max_radius = 200;
 
 cv::Mat src, src_gray, image, display;
@@ -19,10 +19,11 @@ void SmoothImage(cv::Mat &src, cv::Mat &dst)
 {
     //do a closing morphology with cross kernel of size 2*9 + 1
     int m_size = 5;
-    cv::GaussianBlur(src, dst, cv::Size(7, 7), 2, 2);
-    cv::Mat element = cv::getStructuringElement(2, cv::Size(5, 5));
-    cv::morphologyEx(src, dst, 0, element);
+    cv::GaussianBlur(src, dst, cv::Size(11, 11), 2, 2);
+    cv::Mat element = cv::getStructuringElement(2, cv::Size(7, 7));
+    cv::morphologyEx(src, dst, 2, element);
     cv::morphologyEx(dst, dst, 2, element);
+    cv::morphologyEx(dst, dst, 0, element);
     cv::morphologyEx(dst, dst, 2, element);
     cv::morphologyEx(dst, dst, 2, element);
     cv::morphologyEx(dst, dst, 2, element);
