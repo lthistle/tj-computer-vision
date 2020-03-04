@@ -49,8 +49,8 @@ int main() {
             if(abs(dist_sq(p3d[i], p3d[j]) - distances[i]) < 0.00001)
                 edges.push_back(cv::Vec2i(i, j));
 
-    cv::Point3f camera(0, 0, -3.5);
-    cv::Point3f plane(0, 0, -3);
+    cv::Point3f camera(0, 0, -10);
+    cv::Point3f plane(0, 0, camera.z + 2.8);
     double cp_dist = plane.z - camera.z;
 
     for(int t = 0; t < 360; t++)
